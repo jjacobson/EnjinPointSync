@@ -50,7 +50,7 @@ public class EnjinPointSync extends JavaPlugin {
             log(Level.SEVERE, "Could not find MobArena-Lobby, disabling plugin!");
             this.setEnabled(false);
         }
-        API = getServer().getServicesManager().getRegistration(com.puzlinc.lolmewn.mobarena.api.MobArenaApi.class).getProvider();
+        API = getServer().getServicesManager().getRegistration(MobArenaApi.class).getProvider();
         lobby = (MainLobby) Bukkit.getServer().getPluginManager().getPlugin("MobArena-Lobby");
         try {
             task = new PushTask();
@@ -58,7 +58,7 @@ public class EnjinPointSync extends JavaPlugin {
             e.printStackTrace();
         }
         // load queue
-        queue = new HashMap<UUID, Integer>();
+        queue = new HashMap<>();
         if (getConfig().getConfigurationSection("UUID") != null) {
             Set<String> set = getConfig().getConfigurationSection("UUID").getKeys(false);
             for (String uuid : set) {

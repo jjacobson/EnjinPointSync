@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class Bugger implements Listener {
 
-    private List<UUID> players = new ArrayList<UUID>();
+    private List<UUID> players = new ArrayList<>();
 
     public Bugger() {
         EnjinPointSync plugin = EnjinPointSync.getInstance();

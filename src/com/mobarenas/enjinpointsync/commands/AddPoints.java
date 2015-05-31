@@ -44,7 +44,6 @@ public class AddPoints implements CommandExecutor {
             instance.getPointManager().addPoints(player, Integer.parseInt(args[1]));
             instance.getLobby().getScoreboard(player).update(instance.getLobby());
             instance.log("Added " + args[1] + " points to " + args[0]);
-
             return true;
         }
     }

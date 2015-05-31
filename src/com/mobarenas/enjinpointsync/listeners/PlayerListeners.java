@@ -27,7 +27,7 @@ public class PlayerListeners implements Listener {
                     if (player.isOnline()) {
                         instance.getPointManager().addPoints(player, points);
                         instance.getLobby().getScoreboard(player).update(instance.getLobby());
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aThank you for participating in our forums! You have been granted &6" + points + " &apoints."));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aThank you for participating on our website! You have been granted &6" + points + " &apoints."));
                         instance.getQueue().remove(player.getUniqueId());
                         instance.getConfig().getConfigurationSection("UUID").set(player.getUniqueId().toString(), null);
                         instance.saveConfig();
