@@ -10,11 +10,11 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class AddPoints implements CommandExecutor {
+public class SyncPoints implements CommandExecutor {
 
     private EnjinPointSync instance;
 
-    public AddPoints() {
+    public SyncPoints() {
         instance = EnjinPointSync.getInstance();
     }
 

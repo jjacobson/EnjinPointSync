@@ -1,8 +1,8 @@
 package com.mobarenas.enjinpointsync;
 
 
-import com.mobarenas.enjinpointsync.commands.AddPoints;
-import com.mobarenas.enjinpointsync.commands.AnnounceAward;
+import com.mobarenas.enjinpointsync.commands.SyncPoints;
+import com.mobarenas.enjinpointsync.commands.AwardAnnounce;
 import com.mobarenas.enjinpointsync.listeners.PlayerListeners;
 import com.mobarenas.enjinpointsync.util.Bugger;
 import com.mobarenas.enjinpointsync.util.PointManager;
@@ -43,8 +43,8 @@ public class EnjinPointSync extends JavaPlugin {
         points = new PointManager();
         util = new Utilities();
         bugger = new Bugger();
-        getCommand("syncpoints").setExecutor(new AddPoints());
-        getCommand("awardannounce").setExecutor(new AnnounceAward());
+        getCommand("syncpoints").setExecutor(new SyncPoints());
+        getCommand("awardannounce").setExecutor(new AwardAnnounce());
         getServer().getPluginManager().registerEvents(new PlayerListeners(), this);
         if (Bukkit.getPluginManager().getPlugin("MobArena-Lobby") == null) {
             log(Level.SEVERE, "Could not find MobArena-Lobby, disabling plugin!");
