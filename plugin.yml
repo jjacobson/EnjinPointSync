@@ -1,0 +1,9 @@
+main: com.mobarenas.enjinpointsync.EnjinPointSync
+name: EnjinPointSync
+depend: [MobArena-Lobby]
+version: 1.0
+commands:
+  syncpoints:
+    description: Sync points with enjin
+  awardannounce:
+    description: Announce an award

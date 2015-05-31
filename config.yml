@@ -1,0 +1,4 @@
+private-key: d1d4259a605dcbf9b5b771c2917307a15b3c768e97addaed
+domain: http://www.mobarenas.com/api/v1/api.php
+polling-time: 60
+queue: []
