@@ -12,10 +12,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public class PushTask {
 
+    private Map<UUID, Integer> points = new HashMap<>();
     private final String privateKey;
     private final URL domain;
     private MobArenaApi API;
@@ -38,7 +42,7 @@ public class PushTask {
                 }
 
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                    asyncEnjinPointsUpdate(player.getName());
+                    asyncEnjinPointsUpdate(player);
                 }
             }
 
@@ -46,11 +50,28 @@ public class PushTask {
 
     }
 
-    public void asyncEnjinPointsUpdate(final String player) {
+    public void asyncEnjinPointsUpdate(Player p) {
+
+        final String player = p.getName();
+        // return if player is not online (we cannot get their points if so)
         if (Bukkit.getServer().getPlayerExact(player) == null)
             return;
-
+        // fetch points from the API
         final int playerPoints = API.getPoints(Bukkit.getServer().getPlayerExact(player));
+        // If they have been previously synced we will check if any changes have been made. If they have, we will sync normally.
+        // If not, we add them to the map to prevent pointless web accesses
+        if (points.containsKey(p.getUniqueId())) {
+            // Player has been previously synced.
+            if (points.get(p.getUniqueId()) == playerPoints) {
+                // Points have not been changed since last sync
+                EnjinPointSync.getInstance().log(Level.INFO, "No changes detected for " + player + ". Continuing to the next player...");
+                return;
+            }
+        } else {
+            // Player has not yet been synced, add them to the map
+            points.put(p.getUniqueId(), playerPoints);
+        }
+
         Bukkit.getServer().getScheduler().runTaskAsynchronously(EnjinPointSync.getInstance(), new Runnable() {
 
             @SuppressWarnings("unchecked")
