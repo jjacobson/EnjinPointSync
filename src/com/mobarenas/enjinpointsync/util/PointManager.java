@@ -9,10 +9,10 @@ public class PointManager {
 
         EnjinPointSync.getInstance().getMAPI().addRawPoints(player, points);
 
-        setWebsitePoints(player.getName());
+        setWebsitePoints(player);
     }
 
-    public void setWebsitePoints(String player) {
+    public void setWebsitePoints(Player player) {
         EnjinPointSync.getInstance().getTask().asyncEnjinPointsUpdate(player);
     }
 
