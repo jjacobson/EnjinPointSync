@@ -117,6 +117,8 @@ public class PushTask {
             }
 
         });
+        // Update the map to hold the new points number to prevent it from using the first number it was given
+        points.put(p.getUniqueId(), playerPoints);
 
     }
 
