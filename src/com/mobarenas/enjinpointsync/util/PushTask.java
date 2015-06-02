@@ -19,9 +19,9 @@ import java.util.logging.Level;
 
 public class PushTask {
 
-    private Map<UUID, Integer> points = new HashMap<>();
     private final String privateKey;
     private final URL domain;
+    private Map<UUID, Integer> points = new HashMap<>();
     private MobArenaApi API;
 
     public PushTask() throws MalformedURLException {
@@ -39,6 +39,13 @@ public class PushTask {
                 if (EnjinPointSync.getInstance().hasChanged()) {
                     EnjinPointSync.getInstance().writeData();
                     EnjinPointSync.getInstance().setChanged(false);
+                }
+
+                // Periodically remove non online players from the list. Considering the large amount of relogs,
+                // this will be more efficient than listing on quit/kick (although it is negligible)
+                for (UUID id : points.keySet()) {
+                    if (!Bukkit.getServer().getPlayer(id).isOnline())
+                        points.remove(id);
                 }
 
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
@@ -120,10 +127,6 @@ public class PushTask {
         // Update the map to hold the new points number to prevent it from using the first number it was given
         points.put(p.getUniqueId(), playerPoints);
 
-    }
-
-    public void removeID(UUID id) {
-        points.remove(id);
     }
 
 }
