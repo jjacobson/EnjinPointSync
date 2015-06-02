@@ -56,10 +56,12 @@ public class PushTask {
         // return if player is not online (we cannot get their points if so)
         if (Bukkit.getServer().getPlayerExact(player) == null)
             return;
+
         // fetch points from the API
         final int playerPoints = API.getPoints(Bukkit.getServer().getPlayerExact(player));
+
         // If they have been previously synced we will check if any changes have been made. If they have, we will sync normally.
-        // If not, we add them to the map to prevent pointless web accesses
+        // If not, we will add them to the list once we are done syncing them
         if (points.containsKey(p.getUniqueId())) {
             // Player has been previously synced.
             if (points.get(p.getUniqueId()) == playerPoints) {
@@ -67,9 +69,6 @@ public class PushTask {
                 EnjinPointSync.getInstance().log(Level.INFO, "No changes detected for " + player + ". Continuing to the next player...");
                 return;
             }
-        } else {
-            // Player has not yet been synced, add them to the map
-            points.put(p.getUniqueId(), playerPoints);
         }
 
         Bukkit.getServer().getScheduler().runTaskAsynchronously(EnjinPointSync.getInstance(), new Runnable() {
@@ -107,7 +106,7 @@ public class PushTask {
                             EnjinPointSync.getInstance().log(Level.SEVERE, "Error updating enjin points for " + player + ": " + response);
                         }
                     } else {
-                        EnjinPointSync.getInstance().log("Successfully updated " + player + "'s levels to: " + playerPoints);
+                        EnjinPointSync.getInstance().log("Successfully updated " + player + "'s points to: " + playerPoints);
                     }
                     in.close();
                     conn.disconnect();
@@ -117,9 +116,14 @@ public class PushTask {
             }
 
         });
+
         // Update the map to hold the new points number to prevent it from using the first number it was given
         points.put(p.getUniqueId(), playerPoints);
 
+    }
+
+    public void removeID(UUID id) {
+        points.remove(id);
     }
 
 }
