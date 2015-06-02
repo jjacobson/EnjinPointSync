@@ -44,7 +44,7 @@ public class PushTask {
                 // Periodically remove non online players from the list. Considering the large amount of relogs,
                 // this will be more efficient than listing on quit/kick (although it is negligible)
                 for (UUID id : points.keySet()) {
-                    if (!Bukkit.getServer().getPlayer(id).isOnline())
+                    if (Bukkit.getServer().getPlayer(id) == null)
                         points.remove(id);
                 }
 
