@@ -118,6 +118,7 @@ public class PushTask {
                     in.close();
                     conn.disconnect();
                 } catch (IOException e) {
+                    EnjinPointSync.getInstance().log(Level.INFO, "Exception while syncing " + player);
                     e.printStackTrace();
                 }
             }
