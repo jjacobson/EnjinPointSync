@@ -12,9 +12,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 
 public class PushTask {
@@ -43,9 +41,14 @@ public class PushTask {
 
                 // Periodically remove non online players from the list. Considering the large amount of relogs,
                 // this will be more efficient than listing on quit/kick (although it is negligible)
+                List<UUID> keysToRemove = new ArrayList<>();
                 for (UUID id : points.keySet()) {
                     if (Bukkit.getServer().getPlayer(id) == null)
-                        points.remove(id);
+                        keysToRemove.add(id);
+                }
+                // Avoid CME
+                for (UUID key : keysToRemove) {
+                    points.remove(key);
                 }
 
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
