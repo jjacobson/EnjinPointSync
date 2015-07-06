@@ -1,8 +1,8 @@
 package com.mobarenas.enjinpointsync;
 
 
-import com.mobarenas.enjinpointsync.commands.SyncPoints;
 import com.mobarenas.enjinpointsync.commands.AwardAnnounce;
+import com.mobarenas.enjinpointsync.commands.SyncPoints;
 import com.mobarenas.enjinpointsync.listeners.PlayerListeners;
 import com.mobarenas.enjinpointsync.util.Bugger;
 import com.mobarenas.enjinpointsync.util.PointManager;

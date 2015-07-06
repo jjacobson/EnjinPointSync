@@ -25,7 +25,7 @@ public class Bugger implements Listener {
     public void bug(String name) {
         final Player player = Bukkit.getServer().getPlayer(name);
 
-        if (!player.isOnline())
+        if (!player.isOnline() || player == null)
             return;
 
         if (players.contains(player.getUniqueId()))
