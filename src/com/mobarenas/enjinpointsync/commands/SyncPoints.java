@@ -2,6 +2,7 @@ package com.mobarenas.enjinpointsync.commands;
 
 import com.mobarenas.enjinpointsync.EnjinPointSync;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,29 +24,25 @@ public class SyncPoints implements CommandExecutor {
         if (!(sender instanceof ConsoleCommandSender))
             return false;
 
-        if (args.length != 2)
+        if (args.length != 2) {
             return false;
+        }
 
         if (Bukkit.getServer().getPlayerExact(args[0]) == null) {
-            EnjinPointSync.getInstance().setChanged(true);
-            UUID playerID = Bukkit.getServer().getOfflinePlayer(args[0]).getUniqueId();
-            if (instance.getQueue().containsKey(playerID)) {
-                instance.getQueue().put(playerID, Integer.parseInt(args[1]) + instance.getQueue().get(playerID));
-                instance.log("Could not add points to " + args[0] + ". Player was not online, updating queue value");
-                return true;
-            } else {
-                instance.getQueue().put(playerID, Integer.parseInt(args[1]));
-                instance.log("Could not add points to " + args[0] + ". Player was not online, adding to queue.");
+            OfflinePlayer op = Bukkit.getOfflinePlayer(args[0]);
+            if (!op.hasPlayedBefore()) {
+                sender.sendMessage("Error: player has never played before");
                 return true;
             }
-
+            instance.getMAPI().addOfflinePoints(op, Integer.parseInt(args[1]));
+            instance.getPointManager().setWebsitePoints(op.getName(), op.getUniqueId());
         } else {
             Player player = Bukkit.getServer().getPlayerExact(args[0]);
             instance.getPointManager().addPoints(player, Integer.parseInt(args[1]));
-            instance.getLobby().getScoreboard(player).update(instance.getLobby());
+            instance.getLobby().getBoardHelper().updateLobbyBoard(player);
+            instance.getPointManager().setWebsitePoints(player.getName(), player.getUniqueId());
             instance.log("Added " + args[1] + " points to " + args[0]);
-            return true;
         }
+        return true;
     }
-
 }

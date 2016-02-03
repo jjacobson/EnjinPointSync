@@ -10,7 +10,6 @@ public class Utilities {
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
         }
-
     }
 
 }

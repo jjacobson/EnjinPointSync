@@ -32,8 +32,7 @@ public class Bugger implements Listener {
             return;
 
         players.add(player.getUniqueId());
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSign up and add your minecraft profile to our site for special rewards! &ewww.mobarenas.com"));
-
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aSign up and add your Minecraft profile to our site for &e500 &apoints instantly! &ewww.mobarenas.com"));
     }
 
     @EventHandler
